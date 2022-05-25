@@ -1,0 +1,21 @@
+{
+  "name": "aroma-mezquite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-validator": "^6.14.1",
+    "helmet": "^5.1.0",
+    "mongoose": "^6.3.4"
+  }
+}
