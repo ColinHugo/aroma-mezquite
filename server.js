@@ -12,6 +12,10 @@ class Server{
         this.app = express();
         this.port = process.env.PORT;
 
+        this.paths = {
+            auth: '/auth',
+        };
+
         this.conectarDB();
 
         this.middlewares();
@@ -29,9 +33,11 @@ class Server{
         this.app.use( mongoSanitize() );
         this.app.use( express.static( path.join( __dirname, '/uploads'  ) ) );
         this.app.use( express.static( path.join( __dirname, '/assets'  ) ) );
+        this.app.use( express.static( path.join( 'public'  ) ) );
     }
 
     routes(){
+        this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
     }
 
     listen(){
