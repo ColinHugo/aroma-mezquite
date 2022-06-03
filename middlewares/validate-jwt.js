@@ -34,7 +34,7 @@ async function validarJWT( req, res, next ) {
 
         console.error( 'Error al validar el token.', error );
 
-        return res.status( 401 ).json( {
+        return res.status( 500 ).json( {
             value: 0,
             msg: 'Error al validar el token.'
         } );
