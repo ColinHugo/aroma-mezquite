@@ -1,41 +1,28 @@
-const { Usuario } = require( '../models' );
+const { User } = require( '../models' );
 
-const {
-    generarJWT,
-    googleVerify
-} = require('../helpers');
+const { generateJWT } = require( '../helpers' );
 
-async function googleSignIn( req, res ) {
+async function login( req, res ) {
 
-    const { id_token } = req.body;
+    const { correo, password } = req.body;
 
     try {
 
-        const { nombre, apellidos, foto, correo } = await googleVerify( id_token );
-
-        let usuario = await Usuario.findOne( { correo } );
-
-        if( !usuario ){
-            
-            const data = {
-                nombre,
-                apellidos,
-                correo,
-                foto
-            };
-
-            usuario = new Usuario( data );
-            await usuario.save();
-        }
-
-        if ( usuario && usuario.foto !== foto ) {
-            usuario.foto = foto;
-            await usuario.save();
-        }
-
-        const token = await generarJWT( usuario.id );
+        const usuario = await User.findOne( { correo } );
     
-        return res.status( 200 ).json( {
+        const passwordCorrect = ( usuario === null || !usuario.estado ) ? 
+        false : await usuario.comparePassword( password );
+    
+        if ( !passwordCorrect ) {
+            return res.status( 400 ).json( {
+                value: 0,
+                msg: 'Usuario o Password incorrectos',
+            } );
+        }
+    
+        const token = await generateJWT( usuario.id );
+    
+        return res.json( {
             value: 1,
             usuario,
             token
@@ -43,13 +30,13 @@ async function googleSignIn( req, res ) {
 
     } catch ( error ) {
 
-        console.error( 'El token no se pudo verificar.', error );
+        console.error( 'Error al inicar sesión', error );
 
-        return res.status( 400 ).json( {
+        return res.status( 500 ).json( {
             value: 0,
-            msg: 'El token no se pudo verificar.',
+            msg: 'Error al inicar sesión',
         } );
     }
-};
+}
 
-module.exports = googleSignIn;
+module.exports = login;

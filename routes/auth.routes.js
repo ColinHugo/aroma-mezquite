@@ -1,13 +1,15 @@
 const router = require( 'express' ).Router();
 const { check } = require( 'express-validator' );
 
-const { validarCampos } = require( '../middlewares' );
+const { limiters, validateFields } = require( '../middlewares' );
 
-const googleSignIn = require( '../controllers/auth.controller' );
+const login = require( '../controllers/auth.controller' );
 
 router.post( '/login', [
-    check( 'id_token', 'El token es necesario.' ).escape().trim().notEmpty(),
-    validarCampos
-], googleSignIn );
+    limiters.limiterLogin,
+    check( 'correo', 'Ingrese un correo válido' ).escape().trim().isEmail(),
+    check( 'password', 'La contraseña es obligatoria' ).escape().trim().notEmpty(),
+    validateFields
+], login );
 
 module.exports = router;
