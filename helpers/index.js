@@ -1,7 +1,11 @@
-const generarJWT = require( './generar-jwt' );
-const googleVerify = require( './google-verify' );
+const generateJWT = require( './generate-jwt' );
+const generateUrlPhotos  = require( './generate-url-photo' );
+const pagination = require( './pagination' );
+const uploadFile = require( './upload-file' );
 
 module.exports = {
-    generarJWT,
-    googleVerify
+    generateJWT,
+    generateUrlPhotos,
+    pagination,
+    uploadFile
 }
