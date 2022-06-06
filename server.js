@@ -1,6 +1,7 @@
 const path = require( 'path' );
 const express = require( 'express' );
 const cors = require( 'cors' );
+const helmet = require( 'helmet' );
 const mongoSanitize = require( 'express-mongo-sanitize' );
 
 const dbConnection = require( './database/config' );
@@ -14,6 +15,7 @@ class Server{
 
         this.paths = {
             auth: '/auth',
+            users: '/users'
         };
 
         this.conectarDB();
@@ -29,15 +31,17 @@ class Server{
 
     middlewares(){
         this.app.use( cors() );
+        this.app.use( helmet() );
         this.app.use( express.json( { limit: '100mb' } ) );
         this.app.use( mongoSanitize() );
         this.app.use( express.static( path.join( __dirname, '/uploads'  ) ) );
         this.app.use( express.static( path.join( __dirname, '/assets'  ) ) );
-        this.app.use( express.static( path.join( 'public'  ) ) );
+        this.app.use( express.static( path.join( 'public' ) ) );
     }
 
     routes(){
         this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
+        this.app.use( this.paths.users, require( './routes/users.routes' ) );
     }
 
     listen(){
