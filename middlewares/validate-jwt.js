@@ -1,6 +1,6 @@
 const jwt = require( 'jsonwebtoken' );
 
-const { Usuario } = require( '../models' );
+const { User } = require( '../models' );
 
 async function validarJWT( req, res, next ) {
 
@@ -17,7 +17,7 @@ async function validarJWT( req, res, next ) {
 
         const { uid } = jwt.verify( token, process.env.JWT_SECRET );
 
-        const usuario = await Usuario.findById( uid );
+        const usuario = await User.findById( uid );
 
         if( !usuario || !usuario.estado ){
             return res.status( 401 ).json( {
