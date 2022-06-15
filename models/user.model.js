@@ -32,10 +32,39 @@ const userSchema = new Schema( {
         required: [ true, 'La contraseña es obligatoria' ],
     },
 
-    direcciones: [ {
+    direccion: {
+
+        calle: {
+            type: String,
+            trim: true
+        },
+
+        entreCalles: {
+            type: String,
+            trim: true
+        },
+
+        referencia: {
+            type: String,
+            trim: true
+        },
+
+        codigoPostal: {
+            type: String,
+            trim: true
+        },
+
+        colonia: {
+            type: String,
+            trim: true
+        }
+        
+    },
+
+    telefono: {
         type: String,
         trim: true
-    } ],
+    },
 
     foto: {
         type: String,
