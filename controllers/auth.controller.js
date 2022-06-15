@@ -1,6 +1,6 @@
 const { User } = require( '../models' );
 
-const { generateJWT } = require( '../helpers' );
+const { generateJWT, generateUrlPhotos } = require( '../helpers' );
 
 async function login( req, res ) {
 
@@ -8,7 +8,7 @@ async function login( req, res ) {
 
     try {
 
-        const usuario = await User.findOne( { correo } );
+        let usuario = await User.findOne( { correo } );
     
         const passwordCorrect = ( usuario === null || !usuario.estado ) ? 
         false : await usuario.comparePassword( password );
@@ -21,6 +21,8 @@ async function login( req, res ) {
         }
     
         const token = await generateJWT( usuario.id );
+
+        usuario = generateUrlPhotos( req, 'usuarios', usuario );
     
         return res.json( {
             value: 1,
