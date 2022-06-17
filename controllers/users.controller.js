@@ -33,7 +33,7 @@ async function getUser( req, res ) {
             msg: `Error al obtener el usuario con id ${ idUsuario }`
         } );
     }
-};
+}
 
 async function getUsers( req, res ) {
 
@@ -70,7 +70,7 @@ async function getUsers( req, res ) {
             msg: 'Error al obtener a los usuarios.'
         } );
     }
-};
+}
 
 async function postUser( req, res ) {
 
@@ -94,7 +94,7 @@ async function postUser( req, res ) {
             msg: 'Error al registrar al usuario.'
         } );
     }
-};
+}
 
 async function putUser( req, res ) {
 
@@ -111,7 +111,6 @@ async function putUser( req, res ) {
 
         if ( foto ) {
             if ( usuario.foto ) {
-
                 const pathImagen = path.join( __dirname, '../uploads/usuarios/', usuario.foto );
 
                 if ( fs.existsSync( pathImagen ) ) {
@@ -138,7 +137,7 @@ async function putUser( req, res ) {
             msg: 'Error al actualizar el usuario.'
         } );
     }
-};
+}
 
 async function deleteUser( req, res ) {
 
@@ -176,7 +175,7 @@ async function deleteUser( req, res ) {
             msg: 'Error al borrar al usuario.'
         } );
     }
-};
+}
 
 module.exports = {
     getUser,

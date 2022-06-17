@@ -1,3 +1,19 @@
+const { User } = require( '../models' );
+
+async function changeEmail( correo, { req } ) {
+
+    const { usuario } = req.body;
+
+    if ( usuario.correo !== correo ) {
+        
+        const user = await User.findOne( { correo } );
+    
+        if ( user ) {
+            throw new Error( 'No se pudo actualizar el correo.' );
+        }
+    }
+}
+
 function getRole( req, res, next ) {
 
     if( !req.body.usuario ){
@@ -35,13 +51,14 @@ function sameUser( req, res, next ) {
         return res.status( 400 ).json( {
             value: 0,
             msg: 'Acción no permitida.'
-        } )
+        } );
     }
 
     next();
 }
 
 module.exports = {
+    changeEmail,
     getRole,
     sameUser
 };
