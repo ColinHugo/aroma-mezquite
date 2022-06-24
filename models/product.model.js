@@ -4,26 +4,31 @@ const productSchema = new Schema( {
 
     nombre: {
         type: String,
-        required: true,
+        required: [ true, 'El nombre del producto es obligatorio.' ],
         trim: true
     },
 
     descripcion: {
         type: String,
-        required: true,
+        required: [ true, 'La descripción del producto es obligatoria.' ],
         trim: true
     },
 
     precio: {
         type: Number,
-        required: true,
+        required: [ true, 'El precio del producto es obligatorio.' ],
         trim: true
     },
 
     foto: {
         type: String,
         trim: true
-    }
+    },
+
+    tags: [ {
+        type: String,
+        trim: true
+    } ]
 
 }, {
     versionKey: false
