@@ -26,7 +26,7 @@ async function validarJWT( req, res, next ) {
             } );
         }
 
-        req.body.usuario = usuario;
+        req.usuario = usuario;
 
         next();
 
