@@ -16,14 +16,14 @@ async function changeEmail( correo, { req } ) {
 
 function getRole( req, res, next ) {
 
-    if( !req.body.usuario ){
+    if( !req.usuario ){
         return res.status( 500 ).json( {
             value: 0,
             msg: 'Error al verificar el usuario.',
         } );
     }
 
-    const { rol } = req.body.usuario;
+    const { rol } = req.usuario;
 
     if( rol !== 1 ){
         return res.status( 403 ).json( {
@@ -37,14 +37,14 @@ function getRole( req, res, next ) {
 
 function sameUser( req, res, next ) {
     
-    if( !req.body.usuario ){
+    if( !req.usuario ){
         return res.status( 500 ).json( {
             value: 0,
             msg: 'Error al verificar el usuario.',
         } );
     }
 
-    const { id } = req.body.usuario;
+    const { id } = req.usuario;
     const { idUsuario } = req.params;
 
     if ( id !== idUsuario ) {
