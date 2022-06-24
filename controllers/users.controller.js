@@ -15,7 +15,8 @@ async function getUser( req, res ) {
 
     try {
 
-        let usuario = await User.findById( idUsuario );
+        let usuario = await User.findById( idUsuario )
+            .populate( 'favoritos', [ 'nombre', 'descripcion', 'precio', 'foto' ] );
 
         usuario = generateUrlPhotos( req, 'usuarios', usuario );
 
@@ -170,9 +171,59 @@ async function deleteUser( req, res ) {
 
         console.error( 'Error al borrar al usuario.', error );
 
-        return res.json( {
+        return res.status( 500 ).json( {
             value: 0,
             msg: 'Error al borrar al usuario.'
+        } );
+    }
+}
+
+async function addFavorites( req, res ) {
+
+    const { id } = req.usuario;
+    const { idProducto } = req.params;
+
+    try {
+
+        const usuario = await User.findById( id );
+
+        const { favoritos } = usuario;
+
+        if ( !favoritos.includes( idProducto ) ) {
+
+            await usuario.updateOne( {
+                $push: {
+                    favoritos: idProducto
+                }
+            } );
+
+            return res.status( 200 ).json( {
+                value: 1,
+                msg: 'Se ha agregado a favoritos.'
+            } );
+        } 
+        
+        else {
+
+            await usuario.updateOne( {
+                $pull: {
+                    favoritos: idProducto
+                }
+            } );
+
+            return res.status( 200 ).json( {
+                value: 1,
+                msg: 'Se ha eliminado de favoritos.'
+            } );
+        }
+
+    } catch ( error ) {
+
+        console.error( 'Error al agregar a favoritos.', error )
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al agregar a favoritos.'
         } );
     }
 }
@@ -182,5 +233,6 @@ module.exports = {
     getUsers,
     postUser,
     putUser,
-    deleteUser
+    deleteUser,
+    addFavorites
 }
