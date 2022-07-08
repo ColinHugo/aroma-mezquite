@@ -15,7 +15,8 @@ const {
     getUsers,
     postUser,
     putUser,
-    deleteUser
+    deleteUser,
+    addFavorites
 } = require( '../controllers/users.controller' );
 
 router.get( '/', [
@@ -56,6 +57,13 @@ router.put( '/:idUsuario', [
     check( 'direccion.colonia', 'El nombre de la colonia es obligatoria.' ).escape().trim().notEmpty(),
     validateFields
 ], putUser );
+
+router.put( '/favorites/:idProducto', [
+    validateJWT,
+    check( 'idProducto', 'No es un id válido' ).isMongoId(),
+    check( 'idProducto' ).custom( dbValidators.productExists ),
+    validateFields
+], addFavorites );
 
 router.delete( '/:idUsuario', [
     validateJWT,
