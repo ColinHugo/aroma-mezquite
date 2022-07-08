@@ -9,6 +9,15 @@ async function emailExists( correo ) {
     }
 }
 
+async function productExists( id ) {
+    
+    const producto = await models.Product.findById( id );
+
+    if ( !producto ) {
+        throw new Error( 'No existe producto.' );
+    }
+}
+
 async function userExists( id ) {
     
     const user = await models.User.findById( id );
@@ -20,5 +29,6 @@ async function userExists( id ) {
 
 module.exports = {
     emailExists,
+    productExists,
     userExists
 }
