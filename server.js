@@ -15,6 +15,7 @@ class Server{
 
         this.paths = {
             auth: '/auth',
+            products: '/products',
             users: '/users'
         };
 
@@ -31,7 +32,9 @@ class Server{
 
     middlewares(){
         this.app.use( cors() );
-        this.app.use( helmet() );
+        this.app.use( helmet( {
+            crossOriginResourcePolicy: false
+        } ) );
         this.app.use( express.json( { limit: '100mb' } ) );
         this.app.use( mongoSanitize() );
         this.app.use( express.static( path.join( __dirname, '/uploads'  ) ) );
@@ -41,6 +44,7 @@ class Server{
 
     routes(){
         this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
+        this.app.use( this.paths.products, require( './routes/products.routes' ) );
         this.app.use( this.paths.users, require( './routes/users.routes' ) );
     }
 
