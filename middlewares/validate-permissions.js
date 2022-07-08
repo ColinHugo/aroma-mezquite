@@ -2,7 +2,7 @@ const { User } = require( '../models' );
 
 async function changeEmail( correo, { req } ) {
 
-    const { usuario } = req.body;
+    const { usuario } = req;
 
     if ( usuario.correo !== correo ) {
         
