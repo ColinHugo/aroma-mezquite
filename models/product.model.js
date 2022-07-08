@@ -25,8 +25,9 @@ const productSchema = new Schema( {
         trim: true
     },
 
-    tags: [ {
+    categorias: [ {
         type: String,
+        required: [ true, 'Al menos una categoria es obligatoria.' ],
         trim: true
     } ]
 
