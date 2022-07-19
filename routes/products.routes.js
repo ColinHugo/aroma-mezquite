@@ -27,13 +27,14 @@ router.get( '/:idProducto', [
     validateFields
 ], getProduct );
 
-router.get( '/search/:producto',
-    check( 'producto', 'Ingrese un artículo a buscar.' ).trim().escape().notEmpty(),
-    searchProduct );
+router.get( '/search/:producto', [
+    check( 'producto', 'Ingrese un artículo a buscar.' ).escape().trim().notEmpty(),
+    validateFields
+], searchProduct );
 
 router.post( '/', [
     validateJWT,
-    validatePermission.getRole,
+    validatePermission.isAdmin,
     check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty(),
     check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty(),
     check( 'precio', 'Ingrese un precio válido.' ).trim().isNumeric(),
@@ -45,7 +46,8 @@ router.post( '/', [
 
 router.put( '/:idProducto', [
     validateJWT,
-    validatePermission.getRole,
+    validatePermission.isAdmin,
+    check( 'idProducto', 'No es un id válido.' ).isMongoId(),
     check( 'idProducto' ).custom( dbValidators.productExists ),
     check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty(),
     check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty(),
@@ -57,7 +59,8 @@ router.put( '/:idProducto', [
 
 router.delete( '/:idProducto', [
     validateJWT,
-    validatePermission.getRole,
+    validatePermission.isAdmin,
+    check( 'idProducto', 'No es un id válido.' ).isMongoId(),
     check( 'idProducto' ).custom( dbValidators.productExists ),
     validateFields
 ], deleteProduct );

@@ -14,7 +14,7 @@ async function changeEmail( correo, { req } ) {
     }
 }
 
-function getRole( req, res, next ) {
+function isAdmin( req, res, next ) {
 
     if( !req.usuario ){
         return res.status( 500 ).json( {
@@ -59,6 +59,6 @@ function sameUser( req, res, next ) {
 
 module.exports = {
     changeEmail,
-    getRole,
+    isAdmin,
     sameUser
 };

@@ -21,7 +21,7 @@ const {
 
 router.get( '/', [
     validateJWT,
-    validatePermission.getRole
+    validatePermission.isAdmin
 ], getUsers );
 
 router.get( '/:idUsuario', [
@@ -69,6 +69,7 @@ router.delete( '/:idUsuario', [
     validateJWT,
     validatePermission.sameUser,
     check( 'idUsuario' ).custom( dbValidators.userExists ),
+    validateFields
 ], deleteUser );
 
 module.exports = router;
