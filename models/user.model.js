@@ -81,7 +81,12 @@ const userSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: 'Product',
         trim: true
-    } ]
+    } ],
+
+    tokenPush: {
+        type: String,
+        trim: true
+    }
 
 }, {
     versionKey: false
