@@ -17,7 +17,8 @@ class Server{
             auth: '/auth',
             orders: '/orders',
             products: '/products',
-            users: '/users'
+            users: '/users',
+            zones: '/zones'
         };
 
         this.conectarDB();
@@ -48,6 +49,7 @@ class Server{
         this.app.use( this.paths.orders, require( './routes/orders.routes' ) );
         this.app.use( this.paths.products, require( './routes/products.routes' ) );
         this.app.use( this.paths.users, require( './routes/users.routes' ) );
+        this.app.use( this.paths.zones, require( './routes/zones.routes' ) );
     }
 
     listen(){
