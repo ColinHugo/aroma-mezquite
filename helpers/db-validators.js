@@ -27,8 +27,18 @@ async function userExists( id ) {
     }
 }
 
+async function zoneExists( id ) {
+    
+    const zona = await models.Zone.findById( id );
+
+    if ( !zona ) {
+        throw new Error( 'No existe zona.' );
+    }
+}
+
 module.exports = {
     emailExists,
     productExists,
-    userExists
+    userExists,
+    zoneExists
 }
