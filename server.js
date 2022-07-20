@@ -17,7 +17,6 @@ class Server{
             auth: '/auth',
             orders: '/orders',
             products: '/products',
-            reservations: '/reservations',
             tables: '/tables',
             users: '/users',
             zones: '/zones'
@@ -50,7 +49,6 @@ class Server{
         this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
         this.app.use( this.paths.orders, require( './routes/orders.routes' ) );
         this.app.use( this.paths.products, require( './routes/products.routes' ) );
-        this.app.use( this.paths.reservations, require( './routes/reservations.routes' ) );
         this.app.use( this.paths.tables, require( './routes/tables.routes' ) );
         this.app.use( this.paths.users, require( './routes/users.routes' ) );
         this.app.use( this.paths.zones, require( './routes/zones.routes' ) );
