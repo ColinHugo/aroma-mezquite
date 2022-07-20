@@ -18,6 +18,15 @@ async function productExists( id ) {
     }
 }
 
+async function tableExists( id ) {
+    
+    const mesa = await models.Table.findById( id );
+
+    if ( !mesa ) {
+        throw new Error( 'No existe mesa.' );
+    }
+}
+
 async function userExists( id ) {
     
     const user = await models.User.findById( id );
@@ -39,6 +48,7 @@ async function zoneExists( id ) {
 module.exports = {
     emailExists,
     productExists,
+    tableExists,
     userExists,
     zoneExists
 }
