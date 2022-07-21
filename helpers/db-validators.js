@@ -18,6 +18,15 @@ async function productExists( id ) {
     }
 }
 
+async function reservationZoneExists( id ) {
+    
+    const reservacion = await models.ReservationZone.findById( id );
+
+    if ( !reservacion ) {
+        throw new Error( 'No existe reservacion.' );
+    }
+}
+
 async function tableExists( id ) {
     
     const mesa = await models.Table.findById( id );
@@ -48,6 +57,7 @@ async function zoneExists( id ) {
 module.exports = {
     emailExists,
     productExists,
+    reservationZoneExists,
     tableExists,
     userExists,
     zoneExists
