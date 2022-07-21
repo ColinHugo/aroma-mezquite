@@ -40,10 +40,10 @@ const reservationZoneSchema = new Schema( {
 
 reservationZoneSchema.methods.toJSON = function () {
 
-    const { _id, ...reservacionMesa } = this.toObject();
-    reservacionMesa.idReservacion = _id;
+    const { _id, ...reservacionZona } = this.toObject();
+    reservacionZona.idReservacion = _id;
 
-    return reservacionMesa;
+    return reservacionZona;
 }
 
 module.exports = model( 'reservation-zone', reservationZoneSchema );
