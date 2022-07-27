@@ -11,18 +11,11 @@ const {
 const { dbValidators } = require( '../helpers');
 
 const {
-    getUser,
-    getUsers,
+    getUser,    
     postUser,
     putUser,
-    deleteUser,
     addFavorites
 } = require( '../controllers/users.controller' );
-
-router.get( '/', [
-    validateJWT,
-    validatePermission.isAdmin
-], getUsers );
 
 router.get( '/:idUsuario', [
     check( 'idUsuario', 'No es un id válido.' ).isMongoId(),
@@ -64,12 +57,5 @@ router.put( '/favorites/:idProducto', [
     check( 'idProducto' ).custom( dbValidators.productExists ),
     validateFields
 ], addFavorites );
-
-router.delete( '/:idUsuario', [
-    validateJWT,
-    validatePermission.sameUser,
-    check( 'idUsuario' ).custom( dbValidators.userExists ),
-    validateFields
-], deleteUser );
 
 module.exports = router;

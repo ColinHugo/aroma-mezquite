@@ -36,43 +36,6 @@ async function getUser( req, res ) {
     }
 }
 
-async function getUsers( req, res ) {
-
-    const { skip, limit } = pagination( req.query );
-    const query = { estado: true };
-
-    try {
-
-        let usuarios = await User.find( query )
-            .skip( skip )
-            .limit( limit );
-
-        if ( usuarios.length === 0 ) {
-
-            return res.status( 404 ).json( {
-                value: 0,
-                msg: 'No hay usuarios registrados.'
-            } );
-        }
-
-        usuarios = generateUrlPhotos( req, 'usuarios', usuarios );
-
-        return res.status( 200 ).json( {
-            value: 1,
-            usuarios
-        } );
-        
-    } catch ( error ) {
-
-        console.error( 'Error al obtener a los usuarios.', error );
-
-        return res.status( 500 ).json( {
-            value: 0,
-            msg: 'Error al obtener a los usuarios.'
-        } );
-    }
-}
-
 async function postUser( req, res ) {
 
     try {
@@ -140,44 +103,6 @@ async function putUser( req, res ) {
     }
 }
 
-async function deleteUser( req, res ) {
-
-    const { idUsuario } = req.params;
-
-    try {
-
-        const usuario = await User.findById( idUsuario );
-
-        if ( usuario.foto ) {
-            
-            const pathImagen = path.join( __dirname, '../uploads/usuarios/', usuario.foto );
-
-            if ( fs.existsSync( pathImagen ) ){
-                fs.unlinkSync( pathImagen );
-            }
-        }
-
-        usuario.estado = false;
-        usuario.foto = '';
-
-        await usuario.save();
-
-        return res.json( {
-            value: 1,
-            msg: 'El usuario se ha eliminado correctamente.'
-        } );
-        
-    } catch ( error ) {
-
-        console.error( 'Error al borrar al usuario.', error );
-
-        return res.status( 500 ).json( {
-            value: 0,
-            msg: 'Error al borrar al usuario.'
-        } );
-    }
-}
-
 async function addFavorites( req, res ) {
 
     const { id } = req.usuario;
@@ -230,9 +155,7 @@ async function addFavorites( req, res ) {
 
 module.exports = {
     getUser,
-    getUsers,
     postUser,
     putUser,
-    deleteUser,
     addFavorites
 }
