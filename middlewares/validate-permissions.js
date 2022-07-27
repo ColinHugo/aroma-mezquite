@@ -25,7 +25,7 @@ function isAdmin( req, res, next ) {
 
     const { rol } = req.usuario;
 
-    if( rol !== 1 ){
+    if( rol !== 2 ){
         return res.status( 403 ).json( {
             value: 0,
             msg: 'Acceso denegado.'
