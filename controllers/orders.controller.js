@@ -2,16 +2,13 @@ const { Order } = require( '../models' );
 
 async function getOrders( req, res ) {
 
-    const { idUsuario, estado } = req.params;
+    const { estado } = req.params;
 
     try {
 
-        const ordenes = await Order.where( {
-            usuario: idUsuario,
-            estado
-        } )
+        const ordenes = await Order.where( { estado } )
             .populate( 'usuario', [ 'nombre', 'apellidos', 'direccion' ] )
-            .populate( 'orden.idProducto', [ 'nombre', 'precio', 'cantidad', 'foto' ] );
+            .populate( 'orden.idProducto', [ 'nombre', 'precio', 'cantidad', 'foto', 'estado' ] );
 
         if ( ordenes.length === 0 ) {
             return res.status( 404 ).json( {
@@ -28,7 +25,44 @@ async function getOrders( req, res ) {
 
     catch ( error ) {
 
-        console.error( 'Error al obtener las productos.', error );
+        console.error( 'Error al obtener las ordenes.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al obtener las ordenes.'
+        } );
+    }
+}
+
+async function getOrdersById( req, res ) {
+
+    const { idUsuario, estado } = req.params;
+
+    try {
+
+        const ordenes = await Order.where( {
+            usuario: idUsuario,
+            estado
+        } )
+            .populate( 'usuario', [ 'nombre', 'apellidos', 'direccion' ] )
+            .populate( 'orden.idProducto', [ 'nombre', 'precio', 'cantidad', 'foto', 'estado' ] );
+
+        if ( ordenes.length === 0 ) {
+            return res.status( 404 ).json( {
+                value: 0,
+                msg: 'No hay ordenes registradas.'
+            } );
+        }
+
+        return res.status( 200 ).json( {
+            value: 1,
+            ordenes
+        } );
+    }
+
+    catch ( error ) {
+
+        console.error( 'Error al obtener las ordenes.', error );
 
         return res.status( 500 ).json( {
             value: 0,
@@ -63,5 +97,6 @@ async function postOrder( req, res ) {
 
 module.exports = {
     getOrders,
+    getOrdersById,
     postOrder
 }

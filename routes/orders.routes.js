@@ -9,21 +9,27 @@ const {
 
 const {
     getOrders,
+    getOrdersById,
     postOrder
 } = require( '../controllers/orders.controller' );
 
-
-router.get( '/:idUsuario/:estado', [
-    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
+router.get( '/:estado', [
     validateJWT,
-    validatePermission.sameUser,
+    validatePermission.isAdmin,
     validateFields
 ], getOrders );
 
-router.post( '/:idUsuario', [
-    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
+router.get( '/:idUsuario/:estado', [
     validateJWT,
     validatePermission.sameUser,
+    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
+    validateFields
+], getOrdersById );
+
+router.post( '/:idUsuario', [
+    validateJWT,
+    validatePermission.sameUser,
+    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
     validateFields
 ], postOrder );
 
