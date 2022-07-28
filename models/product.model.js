@@ -2,6 +2,11 @@ const { Schema, model } = require( 'mongoose' );
 
 const productSchema = new Schema( {
 
+    estado: {
+        type: Boolean,
+        default: true
+    },
+
     nombre: {
         type: String,
         required: [ true, 'El nombre del producto es obligatorio.' ],
@@ -22,12 +27,12 @@ const productSchema = new Schema( {
 
     foto: {
         type: String,
+        required: [ true, 'La foto es obligatoria.' ],
         trim: true
     },
 
     categorias: [ {
         type: String,
-        required: [ true, 'Al menos una categoria es obligatoria.' ],
         trim: true
     } ]
 
