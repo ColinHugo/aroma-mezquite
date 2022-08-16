@@ -44,7 +44,6 @@ class Server{
         this.app.use( mongoSanitize() );
         this.app.use( express.static( path.join( __dirname, '/uploads'  ) ) );
         this.app.use( express.static( path.join( __dirname, '/assets'  ) ) );
-        this.app.use( express.static( path.join( 'public' ) ) );
     }
 
     routes(){
