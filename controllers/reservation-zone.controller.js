@@ -2,10 +2,17 @@ const { ReservationZone } = require( '../models' );
 
 async function getReservationsZone( req, res ) {
 
+    const { desde } = req.params;
+
     try {
 
-        const reservaciones = await ReservationZone.find()
-            .populate( 'usuario', [ 'nombre', 'apellidos' ] )
+        const reservaciones = await ReservationZone.find( {
+            fechaInicio: {
+                $gte: new Date( desde ).toISOString(),
+                $lte: new Date( desde + 86399999 ).toISOString()
+            }
+        } )
+            .populate( 'usuario', [ 'nombre', 'apellidos', 'tokenPush' ] )
             .populate( 'zona', [ 'zona', 'precio' ] )
 
         if ( reservaciones.length === 0 ) {
@@ -39,7 +46,7 @@ async function getReservationZone( req, res ) {
     try {
 
         const reservaciones = await ReservationZone.find( { usuario: idUsuario } )
-            .populate( 'usuario', [ 'nombre', 'apellidos' ] )
+            .populate( 'usuario', [ 'nombre', 'apellidos', 'tokenPush' ] )
             .populate( 'zona', [ 'zona', 'precio' ] )
 
         if ( reservaciones.length === 0 ) {
