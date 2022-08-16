@@ -15,6 +15,7 @@ class Server{
 
         this.paths = {
             auth: '/auth',
+            deliveries: '/deliveries',
             orders: '/orders',
             products: '/products',
             reservations: '/reservations',
@@ -48,6 +49,7 @@ class Server{
 
     routes(){
         this.app.use( this.paths.auth, require( './routes/auth.routes' ) );
+        this.app.use( this.paths.deliveries, require( './routes/deliveries.routes' ) );
         this.app.use( this.paths.orders, require( './routes/orders.routes' ) );
         this.app.use( this.paths.products, require( './routes/products.routes' ) );
         this.app.use( this.paths.reservations, require( './routes/reservations.routes' ) );
