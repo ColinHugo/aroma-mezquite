@@ -9,12 +9,30 @@ async function emailExists( correo ) {
     }
 }
 
+async function orderExists( id ) {
+    
+    const orden = await models.Order.findById( id );
+
+    if ( !orden ) {
+        throw new Error( 'No existe orden.' );
+    }
+}
+
 async function productExists( id ) {
     
     const producto = await models.Product.findById( id );
 
     if ( !producto ) {
         throw new Error( 'No existe producto.' );
+    }
+}
+
+async function reservationTableExists( id ) {
+    
+    const reservacion = await models.ReservationTable.findById( id );
+
+    if ( !reservacion ) {
+        throw new Error( 'No existe reservacion.' );
     }
 }
 
@@ -56,7 +74,9 @@ async function zoneExists( id ) {
 
 module.exports = {
     emailExists,
+    orderExists,
     productExists,
+    reservationTableExists,
     reservationZoneExists,
     tableExists,
     userExists,
