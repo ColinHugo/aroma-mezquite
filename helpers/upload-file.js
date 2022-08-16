@@ -37,6 +37,6 @@ function subirFoto( dataURI, extensionesValidas = [ 'png', 'jpg', 'jpeg', 'webp'
             resolve( nombre );
         } );
     } );
-};
+}
 
 module.exports = subirFoto;
