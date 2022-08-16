@@ -58,7 +58,7 @@ orderSchema.pre( 'save', function () {
 
 orderSchema.methods.toJSON = function(){
     const { _id, ...orden } = this.toObject();
-    orden.idOrde = _id;
+    orden.idOrden = _id;
 
     return orden;
 }
