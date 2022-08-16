@@ -36,26 +36,31 @@ const userSchema = new Schema( {
 
         calle: {
             type: String,
+            default: 'Sin datos',
             trim: true
         },
 
         entreCalles: {
             type: String,
+            default: 'Sin datos',
             trim: true
         },
 
         referencia: {
             type: String,
+            default: 'Sin datos',
             trim: true
         },
 
         codigoPostal: {
             type: String,
+            default: 'Sin datos',
             trim: true
         },
 
         colonia: {
             type: String,
+            default: 'Sin datos',
             trim: true
         }
         
