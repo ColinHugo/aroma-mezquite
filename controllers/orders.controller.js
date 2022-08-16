@@ -8,7 +8,10 @@ async function getOrders( req, res ) {
 
         const ordenes = await Order.where( { estado } )
             .populate( 'usuario', [ 'nombre', 'apellidos', 'direccion', 'tokenPush' ] )
-            .populate( 'orden.idProducto', [ 'nombre', 'precio', 'cantidad', 'foto', 'estado' ] );
+            .populate( 'orden.idProducto', [ 'nombre', 'precio', 'cantidad', 'foto', 'estado' ] )
+            .sort( {
+                updatedAt: -1
+            } );
 
         if ( ordenes.length === 0 ) {
             return res.status( 404 ).json( {
@@ -137,6 +140,54 @@ async function postOrder( req, res ) {
     }
 }
 
+async function acceptOrder( req, res ) {
+
+    const { idPedido } = req.params;
+
+    try {
+
+        await Order.findByIdAndUpdate( idPedido, { estado: 'en curso' } );
+
+        return res.status( 201 ).json( {
+            value: 1,
+            msg: 'La orden se ha aceptado correctamente.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al aceptar la orden.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al aceptar la orden.'
+        } );
+    }
+}
+
+async function conludeOrder( req, res ) {
+
+    const { idPedido } = req.params;
+
+    try {
+
+        await Order.findByIdAndUpdate( idPedido, { estado: 'completado' } );
+
+        return res.status( 201 ).json( {
+            value: 1,
+            msg: 'La orden se ha completado correctamente.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al completar la orden.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al completar la orden.'
+        } );
+    }
+}
+
 async function cancelOrder( req, res ) {
 
     const { idPedido } = req.params;
@@ -166,5 +217,7 @@ module.exports = {
     getOrdersById,
     getOrdersByDate,
     postOrder,
+    acceptOrder,
+    conludeOrder,
     cancelOrder
 }
