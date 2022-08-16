@@ -35,12 +35,12 @@ router.get( '/search/:producto', [
 router.post( '/', [
     validateJWT,
     validatePermission.isAdmin,
-    check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty(),
-    check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty(),
+    check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty().not().isNumeric(),
+    check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty().not().isNumeric(),
     check( 'precio', 'Ingrese un precio válido.' ).trim().isNumeric(),
     check( 'categorias', 'Al menos una categoria es obligatoria.' ).isArray( { min: 1 } ),
-    check( 'categorias.*', 'No pueden ir categorias vacías.' ).escape().trim().notEmpty(),
     check( 'categorias.*', 'Ingrese categorias válidas.' ).not().isNumeric(),
+    check( 'foto', 'La foto es obligatoria.' ).trim().notEmpty(),
     validateFields
 ], postProduct );
 
@@ -49,10 +49,9 @@ router.put( '/:idProducto', [
     validatePermission.isAdmin,
     check( 'idProducto', 'No es un id válido.' ).isMongoId(),
     check( 'idProducto' ).custom( dbValidators.productExists ),
-    check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty(),
-    check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty(),
+    check( 'nombre', 'El nombre es obligatorio.' ).trim().escape().notEmpty().not().isNumeric(),
+    check( 'descripcion', 'La descripcion es obligatoria.' ).trim().escape().notEmpty().not().isNumeric(),
     check( 'precio', 'Ingrese un precio válido.' ).trim().isNumeric(),
-    check( 'categorias.*', 'No pueden ir categorias vacías.' ).escape().trim().notEmpty(),
     check( 'categorias.*', 'Ingrese categorias válidas.' ).not().isNumeric(),
     validateFields
 ], putProduct );
