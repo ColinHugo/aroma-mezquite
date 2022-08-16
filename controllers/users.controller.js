@@ -5,7 +5,6 @@ const { User } = require( '../models' );
 
 const {
     generateUrlPhotos,
-    pagination,
     uploadFile
 } = require( '../helpers' );
 
@@ -16,7 +15,7 @@ async function getUser( req, res ) {
     try {
 
         let usuario = await User.findById( idUsuario )
-            .populate( 'favoritos', [ 'nombre', 'descripcion', 'precio', 'foto' ] );
+            .populate( 'favoritos', [ 'nombre', 'descripcion', 'precio', 'foto', 'estado' ] );
 
         usuario = generateUrlPhotos( req, 'usuarios', usuario );
 
@@ -32,6 +31,74 @@ async function getUser( req, res ) {
         return res.status( 500 ).json( {
             value: 0,
             msg: `Error al obtener el usuario con id ${ idUsuario }`
+        } );
+    }
+}
+
+async function getDealers( req, res ) {
+
+    const query = { estado: true, rol: 1 };
+
+    try {
+
+        let usuarios = await User.find( query );
+
+        if ( usuarios.length === 0 ) {
+
+            return res.status( 404 ).json( {
+                value: 0,
+                msg: 'No hay usuarios registrados.'
+            } );
+        }
+
+        usuarios = generateUrlPhotos( req, 'usuarios', usuarios );
+
+        return res.status( 200 ).json( {
+            value: 1,
+            usuarios
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al obtener a los usuarios.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al obtener a los usuarios.'
+        } );
+    }
+}
+
+async function getTokens( req, res ) {
+
+    try {
+
+        const usuarios = await User.find( { rol: 2 } );
+
+        if ( usuarios.length === 0 ) {
+
+            return res.status( 404 ).json( {
+                value: 0,
+                msg: 'No hay usuarios con tokens registrados.'
+            } );
+        }
+
+        const tokens = usuarios.map( usuario => {
+            return usuario.tokenPush;
+        } );
+
+        return res.status( 200 ).json( {
+            value: 1,
+            tokens
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al obtener los tokens.', error );
+
+        return res.status( 500 ).json( {
+            value: 0,
+            msg: 'Error al obtener los tokens.'
         } );
     }
 }
@@ -155,6 +222,8 @@ async function addFavorites( req, res ) {
 
 module.exports = {
     getUser,
+    getDealers,
+    getTokens,
     postUser,
     putUser,
     addFavorites
