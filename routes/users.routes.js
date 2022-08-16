@@ -8,14 +8,23 @@ const {
     validatePermission
 } = require( '../middlewares' );
 
-const { dbValidators } = require( '../helpers');
+const { dbValidators } = require( '../helpers' );
 
 const {
-    getUser,    
+    getUser,
+    getDealers,
+    getTokens,
     postUser,
     putUser,
     addFavorites
 } = require( '../controllers/users.controller' );
+
+router.get( '/', [
+    validateJWT,
+    validatePermission.isAdmin
+], getDealers );
+
+router.get( '/tokens', validateJWT, getTokens );
 
 router.get( '/:idUsuario', [
     check( 'idUsuario', 'No es un id válido.' ).isMongoId(),
