@@ -15,6 +15,8 @@ const {
     getOrdersById,
     getOrdersByDate,
     postOrder,
+    acceptOrder,
+    conludeOrder,
     cancelOrder
 } = require( '../controllers/orders.controller' );
 
@@ -46,6 +48,22 @@ router.post( '/:idUsuario', [
 ], postOrder );
 
 router.put( '/:idUsuario/:idPedido', [
+    validateJWT,
+    validatePermission.isAdmin,
+    check( 'idUsuario', 'No es un id válido' ).isMongoId(),
+    check( 'idPedido', 'No es un id válido' ).isMongoId(),
+    check( 'idPedido' ).custom( dbValidators.orderExists ),
+    validateFields
+], acceptOrder );
+
+router.put( '/:idPedido', [
+    validateJWT,
+    check( 'idPedido', 'No es un id válido' ).isMongoId(),
+    check( 'idPedido' ).custom( dbValidators.orderExists ),
+    validateFields
+], conludeOrder );
+
+router.delete( '/:idUsuario/:idPedido', [
     validateJWT,
     validatePermission.isAdmin,
     check( 'idUsuario', 'No es un id válido' ).isMongoId(),
