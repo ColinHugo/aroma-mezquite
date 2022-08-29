@@ -170,6 +170,44 @@ async function putUser( req, res ) {
     }
 }
 
+const deleteUsuarios = async ( req, res ) => {
+
+    const { idUsuario } = req.params;
+
+    try {
+
+        const usuario = await User.findById( idUsuario );
+
+        if ( usuario.foto ) {
+            
+            const pathImagen = path.join( __dirname, '../uploads/usuarios/', usuario.foto );
+
+            if ( fs.existsSync( pathImagen ) ){
+                fs.unlinkSync( pathImagen );
+            }
+        }
+
+        usuario.estado = false;
+        usuario.foto = '';
+
+        await usuario.save();
+
+        return res.json( {
+            value: 1,
+            msg: 'El usuario se ha eliminado correctamente.'
+        } );
+        
+    } catch ( error ) {
+
+        console.error( 'Error al borrar al usuario.', error );
+
+        return res.json( {
+            value: 0,
+            msg: 'Error al borrar al usuario.'
+        } );
+    }
+}
+
 async function addFavorites( req, res ) {
 
     const { id } = req.usuario;
@@ -226,5 +264,6 @@ module.exports = {
     getTokens,
     postUser,
     putUser,
+    deleteUsuarios,
     addFavorites
 }
