@@ -4,7 +4,7 @@ async function dbConnection() {
 
     try {
 
-        mongoose.connect( process.env.MONGODB_DEV, {
+        mongoose.connect( process.env.MONGODB_PRO, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         } );
