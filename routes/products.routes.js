@@ -18,7 +18,7 @@ const {
     deleteProduct
 } = require( '../controllers/products.controller' );
 
-router.get( '/', validateJWT, getProducts );
+router.get( '/', getProducts );
 
 router.get( '/:idProducto', [
     validateJWT,

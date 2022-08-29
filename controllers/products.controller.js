@@ -13,10 +13,14 @@ async function getProducts( req, res ) {
 
     // const { skip, limit } = pagination( req.query );
     const { show } = req.query;
+    let favoritos = [];
 
     try {
 
-        const { favoritos } = req.usuario;
+        if ( req.usuario ) {
+            favoritos = req.usuario;
+        }
+
         let productos;
 
         switch ( show ) {
