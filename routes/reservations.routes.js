@@ -55,7 +55,7 @@ router.post( '/zones/:idUsuario/:idZona', [
     check( 'fechaInicio', 'La fecha inicial es obligatoria.').trim().notEmpty(),
     check( 'fechaInicio', 'Ingrese una fecha válida.').isISO8601( { strict: true } ).toDate( 'fechaInicio' ),
     check( 'fechaInicio', 'Ingrese una fecha u hora posterior a la actual.' ).isAfter(),
-    check( 'contacto', 'El contacto es obligatorio.' ).escape().trim().notEmpty().isMobilePhone(),
+    check( 'contacto', 'El contacto es obligatorio.' ).trim().isInt().isLength( { min: 10, max: 10 } ),
     validateFields
 ], postReservationZone );
 
@@ -69,7 +69,7 @@ router.put( '/zones/:idUsuario/:idReservacion', [
     check( 'fechaInicio', 'La fecha inicial es obligatoria.').trim().notEmpty(),
     check( 'fechaInicio', 'Ingrese una fecha válida.').isISO8601( { strict: true } ).toDate( 'fechaInicio' ),
     check( 'fechaInicio', 'Ingrese una fecha u hora posterior a la actual.' ).isAfter(),
-    check( 'contacto', 'El contacto es obligatorio.' ).escape().trim().notEmpty().isMobilePhone(),
+    check( 'contacto', 'El contacto es obligatorio.' ).trim().isInt().isLength( { min: 10, max: 10 } ),
     validateFields
 ], putReservationZone );
 
@@ -107,7 +107,7 @@ router.post( '/tables/:idUsuario/:idMesa', [
     check( 'fechaInicio', 'La fecha inicial es obligatoria.').trim().notEmpty(),
     check( 'fechaInicio', 'Ingrese una fecha válida.').isISO8601( { strict: true } ).toDate( 'fechaInicio' ),
     check( 'fechaInicio', 'Ingrese una fecha u hora posterior a la actual.' ).isAfter(),
-    check( 'contacto', 'El contacto es obligatorio.' ).escape().trim().notEmpty().isMobilePhone(),
+    check( 'contacto', 'El contacto es obligatorio.' ).trim().isInt().isLength( { min: 10, max: 10 } ),
     validateFields
 ], postReservationTable );
 
@@ -121,7 +121,7 @@ router.put( '/tables/:idUsuario/:idReservacion', [
     check( 'fechaInicio', 'La fecha inicial es obligatoria.').trim().notEmpty(),
     check( 'fechaInicio', 'Ingrese una fecha válida.').isISO8601( { strict: true } ).toDate( 'fechaInicio' ),
     check( 'fechaInicio', 'Ingrese una fecha u hora posterior a la actual.' ).isAfter(),
-    check( 'contacto', 'El contacto es obligatorio.' ).escape().trim().notEmpty().isMobilePhone(),
+    check( 'contacto', 'El contacto es obligatorio.' ).trim().isInt().isLength( { min: 10, max: 10 } ),
     validateFields
 ], putReservationTable );
 

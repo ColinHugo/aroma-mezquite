@@ -39,7 +39,7 @@ router.post( '/', [
     limiters.limiterAccount,
     check( 'nombre', 'Ingrese un nombre válido.' ).escape().trim().matches( /^[A-Za-z\s\u00C0-\u017F]+$/ ),
     check( 'apellidos', 'Ingrese apellidos válidos.' ).escape().trim().matches( /^[A-Za-z\s\u00C0-\u017F]+$/ ),
-    check( 'telefono', 'Ingrese un número telefónico válido.' ).trim().isMobilePhone( 'es-MX' ),
+    check( 'telefono', 'Ingrese un número telefónico válido.' ).trim().isInt().isLength( { min: 10, max: 10 } ),
     check( 'correo', 'Ingrese un correo válido.' ).escape().trim().isEmail(),
     check( 'correo' ).custom( dbValidators.emailExists ),
     check( 'password', 'El password debe tener al menos 5 caracteres.' ).escape().trim().isLength( { min: 5 } ),
